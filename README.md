@@ -74,16 +74,3 @@ Live Preview 👉 <a href="https://your-linkqr-demo.vercel.app/">View Website</a
 
 ---
 
-## 📂 Project Structure
-
-- `app/` – Next.js app directory (main pages and layout)
-- `components/` – Reusable React components (QR generator, toggle, etc.)
-- `public/` – Static assets
-- `.next/` – Build output (auto-generated)
-- `README.md` – Project documentation
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
