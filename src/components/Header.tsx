@@ -1,4 +1,6 @@
-import DarkModeToggle from './Toggle';
+import { useEffect, useState } from "react";
+import DarkModeToggle from "./Toggle";
+import { FaDownload } from "react-icons/fa";
 
 type HeaderProps = {
   dark: boolean;
@@ -8,13 +10,29 @@ type HeaderProps = {
 export default function Header({ dark, setDark }: HeaderProps) {
   const black = dark ? '#000' : '#fff';
   const white = dark ? '#fff' : '#000';
-  const blue = '#0070f3';
+  const [downloadCount, setDownloadCount] = useState(0);
+
+  useEffect(() => {
+    // Listen for changes to downloadCount in localStorage
+    const updateCount = () => {
+      const saved = localStorage.getItem("downloadCount");
+      setDownloadCount(saved ? parseInt(saved, 10) : 0);
+    };
+    updateCount();
+    window.addEventListener("storage", updateCount);
+    // Poll every 500ms for same-tab updates
+    const interval = setInterval(updateCount, 500);
+    return () => {
+      window.removeEventListener("storage", updateCount);
+      clearInterval(interval);
+    };
+  }, []);
 
   return (
     <header
       style={{
         width: '100%',
-        background: blue,
+        background: "#0070f3",
         borderBottom: `4px solid ${black}`,
         padding: '1rem 0',
         position: 'sticky',
@@ -26,7 +44,15 @@ export default function Header({ dark, setDark }: HeaderProps) {
         zIndex: 50,
       }}
     >
-      <div style={{ maxWidth: '68rem', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div
+        style={{
+          maxWidth: '68rem',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <h1
             className="linkqr-title"
@@ -52,22 +78,34 @@ export default function Header({ dark, setDark }: HeaderProps) {
             }}
           />
         </div>
-        <span className="dark-toggle-mobile">
-          <DarkModeToggle dark={dark} setDark={setDark} black={black} white={white} />
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+          <span
+            className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "1rem",
+              padding: "0.3rem 1rem",
+              fontSize: "1rem",
+              fontWeight: 900,
+              background: black,
+              color: white,
+              border: `3px solid ${white}`,
+              borderRadius: "8px",
+              textTransform: "uppercase",
+              transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
+              cursor: "default",
+              userSelect: "none",
+            }}
+          >
+            <FaDownload size={18} color={white} />
+            {downloadCount}
+          </span>
+          <span>
+            <DarkModeToggle dark={dark} setDark={setDark} black={black} white={white} />
+          </span>
+        </div>
       </div>
-      <style>
-        {`
-          @media (max-width: 900px) {
-            .linkqr-title {
-              margin-left: 1.5rem !important;
-            }
-            .dark-toggle-mobile {
-              margin-right: 1.5rem !important;
-            }
-          }
-        `}
-      </style>
     </header>
   );
 }

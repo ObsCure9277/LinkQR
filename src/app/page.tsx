@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 
 export default function Home() {
   const [dark, setDark] = useState(false);
+  const downloadCount = 0;
   return (
     <main
       style={{
@@ -31,7 +32,7 @@ export default function Home() {
               : `repeating-linear-gradient(0deg, #222 0px, #222 1px, transparent 1px, transparent 64px), repeating-linear-gradient(90deg, #222 0px, #222 1px, transparent 1px, transparent 64px)`,
         }}
       />
-      <Header dark={dark} setDark={setDark} />
+      <Header dark={dark} setDark={setDark} downloadCount={downloadCount} />
       <LinkQR dark={dark} />
       <Footer dark={dark} />
     </main>

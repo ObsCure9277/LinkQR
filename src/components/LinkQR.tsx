@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaDownload } from "react-icons/fa";
 import { FaPaste, FaUpload } from "react-icons/fa";
 import { QRCodeCanvas } from "qrcode.react";
@@ -9,6 +9,21 @@ export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
   const [logo, setLogo] = useState<string | null>(null);
+  const [downloadCount, setDownloadCount] = useState(() => {
+    // Load from localStorage if available
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("downloadCount");
+      return saved ? parseInt(saved, 10) : 0;
+    }
+    return 0;
+  });
+
+  useEffect(() => {
+    // Save to localStorage whenever downloadCount changes
+    if (typeof window !== "undefined") {
+      localStorage.setItem("downloadCount", downloadCount.toString());
+    }
+  }, [downloadCount]);
 
   // Color palette
   const black = dark ? "#000" : "#fff";
@@ -352,6 +367,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                       a.href = url;
                       a.download = "qrcode.png";
                       a.click();
+                      setDownloadCount(count => count + 1); 
                       return;
                     }
                     // Draw logo onto a copy of the QR canvas
@@ -382,6 +398,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                       a.href = url;
                       a.download = "qrcode.png";
                       a.click();
+                      setDownloadCount(count => count + 1);
                     }
                   }
                 }}
