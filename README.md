@@ -34,14 +34,6 @@ A simple and modern web app to convert any link into a QR code, built with **Rea
   </tr>
   <tr>
     <td>
-      <b>QR Code:</b>
-    </td>
-    <td>
-      <img src="https://img.shields.io/badge/qrcode.react-0070f3?style=for-the-badge&logo=react&logoColor=white" />
-    </td>
-  </tr>
-  <tr>
-    <td>
       <b>Deployment:</b>
     </td>
     <td>
