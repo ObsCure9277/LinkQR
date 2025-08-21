@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main style={{ minHeight: '100vh' , background: dark ? '#fff' : '#000' }}>
       <Header dark={dark} setDark={setDark} />
-      <LinkQR dark={dark} setDark={setDark} />
+      <LinkQR dark={dark} />
     </main>
   );
 }

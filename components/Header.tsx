@@ -49,7 +49,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
         >
           LinkQR
         </h1>
-        <DarkModeToggle dark={dark} setDark={setDark} black={black} white={white} style={{ marginLeft: '10rem' }}/>
+        <DarkModeToggle dark={dark} setDark={setDark} black={black} white={white} />
       </div>
     </header>
   );

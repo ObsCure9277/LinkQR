@@ -5,8 +5,7 @@ import { FaDownload } from "react-icons/fa";
 import { FaPaste } from "react-icons/fa";
 import { QRCodeCanvas } from "qrcode.react";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function LinkQR({ dark, setDark }) {
+export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
 
@@ -93,7 +92,6 @@ export default function LinkQR({ dark, setDark }) {
         className="linkqr-container"
         style={{
           background: white,
-          border: `4px solid ${black}`,
           borderRadius: "16px",
           padding: "2rem",
           maxWidth: "72rem",
@@ -154,7 +152,7 @@ export default function LinkQR({ dark, setDark }) {
                   paddingBottom: "0.25rem",
                 }}
               >
-                Your Link
+                Destination Link
               </h1>
               <input
                 className="linkqr-input"
@@ -206,14 +204,14 @@ export default function LinkQR({ dark, setDark }) {
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
                 style={{ background: yellow, color: '#000000', borderColor: '#000000' }}
               >
-                <FaPaste size={22} style={{ color: '#000000' }} />
+                <FaPaste size={22} color="#000000" />
                 Paste link here
               </div>
               <div
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
                 style={{ background: yellow, color: '#000000', borderColor: '#000000' }}
               >
-                <FaDownload size={22} style={{ color: '#000000' }} />
+                <FaDownload size={22} color="#000000" />
                 Share to anyone !
               </div>
             </div>
