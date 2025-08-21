@@ -27,19 +27,31 @@ export default function Header({ dark, setDark }: HeaderProps) {
       }}
     >
       <div style={{ maxWidth: '68rem', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h1
-          className="linkqr-title"
-          style={{
-            color: "#000000",
-            fontWeight: 900,
-            fontSize: '2rem',
-            letterSpacing: '-2px',
-            textTransform: 'uppercase',
-            margin: 0,
-          }}
-        >
-          LinkQR
-        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <h1
+            className="linkqr-title"
+            style={{
+              color: "#000000",
+              fontWeight: 900,
+              fontSize: '2rem',
+              letterSpacing: '-2px',
+              textTransform: 'uppercase',
+              margin: 0,
+            }}
+          >
+            LinkQR
+          </h1>
+          <img
+            src="/linkqr_favicon.svg"
+            alt="LinkQR Logo"
+            style={{
+              width: '2.2rem',
+              height: '2.2rem',
+              marginLeft: '0.25rem',
+              verticalAlign: 'middle',
+            }}
+          />
+        </div>
         <span className="dark-toggle-mobile">
           <DarkModeToggle dark={dark} setDark={setDark} black={black} white={white} />
         </span>
