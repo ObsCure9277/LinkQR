@@ -26,20 +26,11 @@ export default function Header({ dark, setDark }: HeaderProps) {
         zIndex: 50,
       }}
     >
-      <style>
-        {`
-          @media (max-width: 900px) {
-            .linkqr-title {
-              margin-left: 1.5rem !important;
-            }
-          }
-        `}
-      </style>
-      <div style={{ maxWidth: '72rem', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ maxWidth: '68rem', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h1
           className="linkqr-title"
           style={{
-            color: white,
+            color: "#000000",
             fontWeight: 900,
             fontSize: '2rem',
             letterSpacing: '-2px',
@@ -49,8 +40,22 @@ export default function Header({ dark, setDark }: HeaderProps) {
         >
           LinkQR
         </h1>
-        <DarkModeToggle dark={dark} setDark={setDark} black={black} white={white} />
+        <span className="dark-toggle-mobile">
+          <DarkModeToggle dark={dark} setDark={setDark} black={black} white={white} />
+        </span>
       </div>
+      <style>
+        {`
+          @media (max-width: 900px) {
+            .linkqr-title {
+              margin-left: 1.5rem !important;
+            }
+            .dark-toggle-mobile {
+              margin-right: 1.5rem !important;
+            }
+          }
+        `}
+      </style>
     </header>
   );
 }

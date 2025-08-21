@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { FaDownload } from "react-icons/fa";
-import { FaPaste } from "react-icons/fa";
+import { FaPaste, FaUpload } from "react-icons/fa";
 import { QRCodeCanvas } from "qrcode.react";
 
 export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
+  const [logo, setLogo] = useState<string | null>(null);
 
   // Color palette
   const black = dark ? "#000" : "#fff";
@@ -145,9 +146,9 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 style={{
                   fontWeight: 900,
                   fontSize: "2rem",
-                  marginTop: "0.5rem",
-                  marginBottom: "1rem",
-                  color: black,
+                  marginBottom: "0.1rem",
+                  marginRight: typeof window !== 'undefined' && window.innerWidth <= 600 ? '0' : '48rem',
+                  color: "#000000",
                   borderBottom: `4px solid ${blue}`,
                   paddingBottom: "0.25rem",
                 }}
@@ -191,13 +192,60 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   border: `3px solid ${black}`,
                   borderRadius: "8px",
                   textTransform: "uppercase",
-                  marginBottom: "2.8rem",
+                  marginBottom: "1rem",
                   transition:
                     "background 0.2s, box-shadow 0.2s, transform 0.2s",
                 }}
               >
                 Generate QR Code
               </button>
+              <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+                <label htmlFor="logo-upload"
+                  className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
+                  style={{
+                    width: "100%",
+                    padding: "1rem",
+                    fontSize: "1rem",
+                    fontWeight: 900,
+                    background: white,
+                    color: black,
+                    border: `3px solid ${black}`,
+                    borderRadius: "8px",
+                    textTransform: "uppercase",
+                    marginBottom: "0.5rem",
+                    transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.75rem",
+                    textAlign: "center",
+                  }}
+                >
+                  <FaUpload size={22} color={black}/>
+                  <span style={{ flex: 1 }}>Upload Logo (optional)</span>
+                  <input
+                    id="logo-upload"
+                    type="file"
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        const reader = new FileReader();
+                        reader.onload = ev => setLogo(ev.target?.result as string);
+                        reader.readAsDataURL(file);
+                      } else {
+                        setLogo(null);
+                      }
+                    }}
+                  />
+                </label>
+                {logo && (
+                  <div style={{ marginTop: '0.5rem', fontSize: '0.95rem', color: '#0070f3', fontWeight: 700 }}>
+                    Logo selected
+                  </div>
+                )}
+              </div>
             </form>
             <div className="linkqr-info-container flex flex-col gap-4 sm:flex-row">
               <div
@@ -241,13 +289,34 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                     display: "inline-block",
                   }}
                 >
-                  <QRCodeCanvas
-                    id="qr-canvas"
-                    value={link}
-                    size={245}
-                    fgColor={"#ffffff"}
-                    bgColor={blue}
-                  />
+                  <div style={{ position: 'relative', display: 'inline-block' }}>
+                    <QRCodeCanvas
+                      id="qr-canvas"
+                      value={link}
+                      size={245}
+                      fgColor={"#ffffff"}
+                      bgColor={blue}
+                    />
+                    {logo && (
+                      <img
+                        src={logo}
+                        alt="Logo"
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          width: "48px",
+                          height: "48px",
+                          transform: "translate(-50%, -50%)",
+                          borderRadius: "8px",
+                          background: "#fff",
+                          objectFit: "contain",
+                          boxShadow: "0 0 4px rgba(0,0,0,0.15)",
+                          pointerEvents: "none"
+                        }}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
               <button
@@ -265,16 +334,47 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   textTransform: "uppercase",
                   transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
                 }}
-                onClick={() => {
-                  const canvas = document.getElementById(
-                    "qr-canvas"
-                  ) as HTMLCanvasElement;
+                onClick={async () => {
+                  const canvas = document.getElementById("qr-canvas") as HTMLCanvasElement;
                   if (canvas) {
-                    const url = canvas.toDataURL("image/png");
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "qrcode.png";
-                    a.click();
+                    // If no logo, download as usual
+                    if (!logo) {
+                      const url = canvas.toDataURL("image/png");
+                      const a = document.createElement("a");
+                      a.href = url;
+                      a.download = "qrcode.png";
+                      a.click();
+                      return;
+                    }
+                    // Draw logo onto a copy of the QR canvas
+                    const tempCanvas = document.createElement("canvas");
+                    tempCanvas.width = canvas.width;
+                    tempCanvas.height = canvas.height;
+                    const ctx = tempCanvas.getContext("2d");
+                    if (ctx) {
+                      ctx.drawImage(canvas, 0, 0);
+                      // Draw logo in the center
+                      const logoImg = new window.Image();
+                      logoImg.src = logo;
+                      await new Promise(resolve => {
+                        logoImg.onload = resolve;
+                      });
+                      const logoSize = 48; // px
+                      const x = (tempCanvas.width - logoSize) / 2;
+                      const y = (tempCanvas.height - logoSize) / 2;
+                      ctx.save();
+                      ctx.beginPath();
+                      ctx.roundRect(x, y, logoSize, logoSize, 8);
+                      ctx.clip();
+                      ctx.drawImage(logoImg, x, y, logoSize, logoSize);
+                      ctx.restore();
+                      // Download the combined image
+                      const url = tempCanvas.toDataURL("image/png");
+                      const a = document.createElement("a");
+                      a.href = url;
+                      a.download = "qrcode.png";
+                      a.click();
+                    }
                   }
                 }}
               >
