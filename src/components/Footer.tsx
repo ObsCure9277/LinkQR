@@ -14,7 +14,7 @@ export default function Footer({ dark }: FooterProps) {
         width: "100%",
         background: blue,
         borderTop: `4px solid ${black}`,
-        padding: "1rem 0",
+        padding: "1.5rem 0",
         fontFamily: "Inter, Arial, sans-serif",
         color: '#000000',
         fontWeight: 700,
@@ -37,7 +37,7 @@ export default function Footer({ dark }: FooterProps) {
           }
         `}
       </style>
-      <div className="footer-inner" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '1.5rem' }}>
+      <div className="footer-inner" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '10rem' }}>
         <span>
           © 2025 LinkQR. All rights reserved.
         </span>
