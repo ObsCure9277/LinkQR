@@ -32,7 +32,7 @@ export default function Home() {
               : `repeating-linear-gradient(0deg, #222 0px, #222 1px, transparent 1px, transparent 64px), repeating-linear-gradient(90deg, #222 0px, #222 1px, transparent 1px, transparent 64px)`,
         }}
       />
-      <Header dark={dark} setDark={setDark} downloadCount={downloadCount} />
+      <Header dark={dark} setDark={setDark} />
       <LinkQR dark={dark} />
       <Footer dark={dark} />
     </main>
