@@ -92,7 +92,6 @@ export default function LinkQR({ dark }: { dark: boolean }) {
       <div
         className="linkqr-container"
         style={{
-          background: white,
           borderRadius: "16px",
           padding: "2rem",
           maxWidth: "72rem",
