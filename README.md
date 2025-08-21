@@ -6,15 +6,15 @@ A simple and modern web app to convert any link into a QR code, built with **Rea
 
 ## 🔑 Key Features
 
-### ✅ Neo-Brutalism Design  
-- Bold, minimal, and visually striking interface using only black, white, and blue.
-
 ### ✅ Instant QR Code Generation  
 - Paste any link and get a QR code instantly.
 
 ### ✅ Downloadable QR Codes  
 - Save generated QR codes as PNG images.
 
+### ✅ Neo-Brutalism Design  
+- Bold, minimal, and visually striking interface using only black, white, yellow and blue.
+  
 ### ✅ Responsive Design  
 - Works seamlessly on desktop and mobile devices.
 
