@@ -70,7 +70,7 @@ A simple and modern web app to convert any link into a QR code, built with **Rea
 
 ## 🌐 Live Preview
 
-Live Preview 👉 <a href="https://your-linkqr-demo.vercel.app/">View Website</a>
+Live Preview 👉 <a href="https://linkqrcode.vercel.app">View Website</a>
 
 ---
 
