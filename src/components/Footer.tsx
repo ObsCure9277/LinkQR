@@ -6,7 +6,6 @@ type FooterProps = {
 
 export default function Footer({ dark }: FooterProps) {
   const black = dark ? "#000" : "#fff";
-  const white = dark ? "#fff" : "#000";
   const blue = "#0070f3";
 
   return (
