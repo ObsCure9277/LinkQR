@@ -87,6 +87,12 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 gap: 0.1rem !important;
             }
           }
+          @media (max-width: 600px) {
+            .destination-link-title {
+              text-align: center !important;
+              margin-right: 0 !important;
+            }
+          }
         `}
       </style>
       <div
@@ -142,14 +148,17 @@ export default function LinkQR({ dark }: { dark: boolean }) {
               }}
             >
               <h1
+                className="destination-link-title"
                 style={{
                   fontWeight: 900,
                   fontSize: "2rem",
                   marginBottom: "0.1rem",
-                  marginRight: typeof window !== 'undefined' && window.innerWidth <= 600 ? '0' : '48rem',
+                  marginRight: typeof window !== 'undefined' && window.innerWidth <= 900 ? '0' : '48rem',
                   color: "#000000",
                   borderBottom: `4px solid ${blue}`,
                   paddingBottom: "0.25rem",
+                  textAlign: typeof window !== 'undefined' && window.innerWidth <= 900 ? 'center' : 'left',
+                  width: "100%",
                 }}
               >
                 Destination Link
