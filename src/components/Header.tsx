@@ -85,7 +85,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
               display: "inline-flex",
               alignItems: "center",
               gap: "1rem",
-              padding: "0.3rem 1rem",
+              padding: "0.2rem 1rem",
               fontSize: "1rem",
               fontWeight: 900,
               background: black,
@@ -98,7 +98,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
               userSelect: "none",
             }}
           >
-            <FaDownload size={18} color={white} />
+            <FaDownload color={white} />
             {downloadCount}
           </span>
           <span>
