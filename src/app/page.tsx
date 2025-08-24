@@ -2,8 +2,11 @@
 
 import { useState } from 'react';
 import Header from '../components/Header';
-import LinkQR from '../components/LinkQR';
 import Footer from '../components/Footer';
+import dynamic from 'next/dynamic';
+
+// Dynamically import LinkQR, client-side only
+const LinkQR = dynamic(() => import('../components/LinkQR'), { ssr: false });
 
 export default function Home() {
   const [dark, setDark] = useState(false);

@@ -7,7 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
-  const [downloadCount, setDownloadCount] = useState(0);
+  const [, setDownloadCount] = useState(0);
 
   // Only initialize Supabase in the browser
   const supabase =
