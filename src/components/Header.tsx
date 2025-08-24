@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import DarkModeToggle from "./Toggle";
 import { FaDownload } from "react-icons/fa";
