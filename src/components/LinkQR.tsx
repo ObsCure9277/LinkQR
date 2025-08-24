@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { createClient } from "@supabase/supabase-js";
 
 export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [downloadCount, setDownloadCount] = useState(0);
 
-  // Initialize Supabase client only in the browser
+  // Only initialize Supabase in the browser
   const supabase =
     typeof window !== "undefined"
       ? createClient(
@@ -19,11 +18,8 @@ export default function LinkQR({ dark }: { dark: boolean }) {
         )
       : null;
 
-  // Fetch total number of rows on mount
-  useEffect(() => {
-    if (supabase) fetchDownloadCount();
-  }, []);
-
+  // Fetch download count from Supabase
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   async function fetchDownloadCount() {
     if (!supabase) return;
     const { count, error } = await supabase
@@ -31,6 +27,11 @@ export default function LinkQR({ dark }: { dark: boolean }) {
       .select("*", { count: "exact", head: true });
     if (!error && typeof count === "number") setDownloadCount(count);
   }
+
+  useEffect(() => {
+    if (!supabase) return;
+    fetchDownloadCount();
+  }, [fetchDownloadCount, supabase]);
 
   // Insert a new row and fetch count
   async function handleDownload() {
