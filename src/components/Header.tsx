@@ -46,7 +46,31 @@ export default function Header({ dark, setDark }: HeaderProps) {
         zIndex: 50,
       }}
     >
+      <style>
+        {`
+          @media (max-width: 600px) {
+            .linkqr-btn-mobile {
+              padding: 0.1rem 0.7rem !important;
+              font-size: 1rem !important;
+              border-radius: 0.75rem !important;
+              gap: 0.5rem !important;
+              height: 2.5rem !important;
+            }
+            .download-icon-mobile {
+              width: 1rem !important;
+              height: 1rem !important;
+            }
+            .header-maxwidth-mobile {
+              max-width: 98vw !important;
+              width: 100vw !important;
+              padding-left: 0.5rem !important;
+              padding-right: 0.5rem !important;
+            }
+          }
+        `}
+      </style>
       <div
+        className="header-maxwidth-mobile"
         style={{
           maxWidth: "68rem",
           width: "100%",
@@ -82,7 +106,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
           <span
-            className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
+            className="linkqr-btn linkqr-btn-mobile shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -100,7 +124,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
               userSelect: "none",
             }}
           >
-            <FaDownload size={18} color={white} />
+            <FaDownload className="download-icon-mobile" size={18} color={white} />
             {downloadCount}
           </span>
           <span>
