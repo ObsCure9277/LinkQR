@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import DarkModeToggle from "./Toggle";
 import { FaDownload } from "react-icons/fa";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 type HeaderProps = {
   dark: boolean;
@@ -8,60 +14,54 @@ type HeaderProps = {
 };
 
 export default function Header({ dark, setDark }: HeaderProps) {
-  const black = dark ? '#000' : '#fff';
-  const white = dark ? '#fff' : '#000';
+  const black = dark ? "#000" : "#fff";
+  const white = dark ? "#fff" : "#000";
   const [downloadCount, setDownloadCount] = useState(0);
 
   useEffect(() => {
-    // Listen for changes to downloadCount in localStorage
-    const updateCount = () => {
-      const saved = localStorage.getItem("downloadCount");
-      setDownloadCount(saved ? parseInt(saved, 10) : 0);
-    };
-    updateCount();
-    window.addEventListener("storage", updateCount);
-    // Poll every 500ms for same-tab updates
-    const interval = setInterval(updateCount, 500);
-    return () => {
-      window.removeEventListener("storage", updateCount);
-      clearInterval(interval);
-    };
+    async function fetchDownloadCount() {
+      const { count, error } = await supabase
+        .from("download_counts")
+        .select("*", { count: "exact", head: true });
+      if (!error && typeof count === "number") setDownloadCount(count);
+    }
+    fetchDownloadCount();
   }, []);
 
   return (
     <header
       style={{
-        width: '100%',
+        width: "100%",
         background: "#0070f3",
         borderBottom: `4px solid ${black}`,
-        padding: '1rem 0',
-        position: 'sticky',
+        padding: "1rem 0",
+        position: "sticky",
         top: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: 'Inter, Arial, sans-serif',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "Inter, Arial, sans-serif",
         zIndex: 50,
       }}
     >
       <div
         style={{
-          maxWidth: '68rem',
-          width: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
+          maxWidth: "68rem",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
           <h1
             className="linkqr-title"
             style={{
               color: "#000000",
               fontWeight: 900,
-              fontSize: '2rem',
-              letterSpacing: '-2px',
-              textTransform: 'uppercase',
+              fontSize: "2rem",
+              letterSpacing: "-2px",
+              textTransform: "uppercase",
               margin: 0,
             }}
           >
@@ -71,21 +71,21 @@ export default function Header({ dark, setDark }: HeaderProps) {
             src="/linkqr_favicon.svg"
             alt="LinkQR Logo"
             style={{
-              width: '2.2rem',
-              height: '2.2rem',
-              marginLeft: '0.25rem',
-              verticalAlign: 'middle',
+              width: "2.2rem",
+              height: "2.2rem",
+              marginLeft: "0.25rem",
+              verticalAlign: "middle",
             }}
           />
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
           <span
             className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: "1rem",
-              padding: "0.2rem 1rem",
+              padding: "0.3rem 1rem",
               fontSize: "1rem",
               fontWeight: 900,
               background: black,
@@ -98,7 +98,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
               userSelect: "none",
             }}
           >
-            <FaDownload color={white} />
+            <FaDownload size={18} color={white} />
             {downloadCount}
           </span>
           <span>

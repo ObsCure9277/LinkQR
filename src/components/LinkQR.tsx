@@ -1,43 +1,46 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaDownload } from "react-icons/fa";
-import { FaPaste, FaUpload } from "react-icons/fa";
 import { QRCodeCanvas } from "qrcode.react";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
-  const [logo, setLogo] = useState<string | null>(null);
-  const [downloadCount, setDownloadCount] = useState(() => {
-    // Load from localStorage if available
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("downloadCount");
-      return saved ? parseInt(saved, 10) : 0;
-    }
-    return 0;
-  });
+  const [downloadCount, setDownloadCount] = useState(0);
 
+  // Fetch total number of rows on mount
   useEffect(() => {
-    // Save to localStorage whenever downloadCount changes
-    if (typeof window !== "undefined") {
-      localStorage.setItem("downloadCount", downloadCount.toString());
+    fetchDownloadCount();
+  }, []);
+
+  async function fetchDownloadCount() {
+    const { count, error } = await supabase
+      .from("download_counts")
+      .select("*", { count: "exact", head: true });
+    if (!error && typeof count === "number") setDownloadCount(count);
+  }
+
+  // Insert a new row and fetch count
+  async function handleDownload() {
+    const { error } = await supabase
+      .from("download_counts")
+      .insert([{ count: 1 }]);
+    if (error) {
+      console.error("Supabase insert error:", error);
     }
-  }, [downloadCount]);
+    await fetchDownloadCount();
+  }
 
   // Color palette
   const black = dark ? "#000" : "#fff";
   const white = dark ? "#fff" : "#000";
   const blue = "#0070f3";
-  const yellow = "#FFD600";
-
-;
 
   return (
     <main
@@ -230,67 +233,24 @@ export default function LinkQR({ dark }: { dark: boolean }) {
               >
                 Generate QR Code
               </button>
-              <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
-                <label htmlFor="logo-upload"
-                  className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
-                  style={{
-                    width: "100%",
-                    padding: "1rem",
-                    fontSize: "1rem",
-                    fontWeight: 900,
-                    background: white,
-                    color: black,
-                    border: `3px solid ${black}`,
-                    borderRadius: "8px",
-                    textTransform: "uppercase",
-                    marginBottom: "0.5rem",
-                    transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                    textAlign: "center",
-                  }}
-                >
-                  <FaUpload size={22} color={black}/>
-                  <span style={{ flex: 1 }}>Upload Logo (optional)</span>
-                  <input
-                    id="logo-upload"
-                    type="file"
-                    accept="image/*"
-                    style={{ display: "none" }}
-                    onChange={e => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        const reader = new FileReader();
-                        reader.onload = ev => setLogo(ev.target?.result as string);
-                        reader.readAsDataURL(file);
-                      } else {
-                        setLogo(null);
-                      }
-                    }}
-                  />
-                </label>
-                {logo && (
-                  <div style={{ marginTop: '0.5rem', fontSize: '0.95rem', color: '#0070f3', fontWeight: 700 }}>
-                    Logo selected
-                  </div>
-                )}
-              </div>
             </form>
             <div className="linkqr-info-container flex flex-col gap-4 sm:flex-row">
               <div
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
-                style={{ background: yellow, color: '#000000', borderColor: '#000000' }}
+                style={{ background: "#FFD600", color: '#000000', borderColor: '#000000' }}
               >
-                <FaPaste size={22} color="#000000" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h4l3 10h8l3-10h4M4 10V7a2 2 0 012-2h12a2 2 0 012 2v3M4 10h16" />
+                </svg>
                 Paste link here
               </div>
               <div
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
-                style={{ background: yellow, color: '#000000', borderColor: '#000000' }}
+                style={{ background: "#FFD600", color: '#000000', borderColor: '#000000' }}
               >
-                <FaDownload size={22} color="#000000" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h4l3 10h8l3-10h4M4 10V7a2 2 0 012-2h12a2 2 0 012 2v3M4 10h16" />
+                </svg>
                 Share to anyone !
               </div>
             </div>
@@ -328,25 +288,6 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                       fgColor={"#ffffff"}
                       bgColor={blue}
                     />
-                    {logo && (
-                      <img
-                        src={logo}
-                        alt="Logo"
-                        style={{
-                          position: "absolute",
-                          top: "50%",
-                          left: "50%",
-                          width: "48px",
-                          height: "48px",
-                          transform: "translate(-50%, -50%)",
-                          borderRadius: "8px",
-                          background: "#fff",
-                          objectFit: "contain",
-                          boxShadow: "0 0 4px rgba(0,0,0,0.15)",
-                          pointerEvents: "none"
-                        }}
-                      />
-                    )}
                   </div>
                 </div>
               </div>
@@ -368,54 +309,12 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 onClick={async () => {
                   const canvas = document.getElementById("qr-canvas") as HTMLCanvasElement;
                   if (canvas) {
-                    // If no logo, download as usual
-                    if (!logo) {
-                      const url = canvas.toDataURL("image/png");
-                      const a = document.createElement("a");
-                      a.href = url;
-                      a.download = "qrcode.png";
-                      a.click();
-                      setDownloadCount(count => count + 1); 
-                      return;
-                    }
-                    // Draw logo onto a copy of the QR canvas
-                    const tempCanvas = document.createElement("canvas");
-                    tempCanvas.width = canvas.width;
-                    tempCanvas.height = canvas.height;
-                    const ctx = tempCanvas.getContext("2d");
-                    if (ctx) {
-                      ctx.drawImage(canvas, 0, 0);
-                      // Draw logo in the center
-                      const logoImg = new window.Image();
-                      logoImg.src = logo;
-                      await new Promise(resolve => {
-                        logoImg.onload = resolve;
-                      });
-                      const logoSize = 48; // px
-                      const x = (tempCanvas.width - logoSize) / 2;
-                      const y = (tempCanvas.height - logoSize) / 2;
-                      ctx.save();
-                      ctx.beginPath();
-                      ctx.roundRect(x, y, logoSize, logoSize, 8);
-                      ctx.clip();
-                      ctx.drawImage(logoImg, x, y, logoSize, logoSize);
-                      ctx.restore();
-                      // Download the combined image
-                      const url = tempCanvas.toDataURL("image/png");
-                      const a = document.createElement("a");
-                      a.href = url;
-                      a.download = "qrcode.png";
-                      a.click();
-                      // Update Supabase count
-                      const newCount = downloadCount + 1;
-                      await supabase
-                        .from('download_counts')
-                        .update({ count: newCount })
-                        .eq('id', 1)
-                        .select();
-
-                      setDownloadCount(newCount);
-                    }
+                    const url = canvas.toDataURL("image/png");
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "qrcode.png";
+                    a.click();
+                    await handleDownload();
                   }
                 }}
               >
