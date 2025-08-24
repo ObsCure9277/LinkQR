@@ -12,12 +12,13 @@ const supabase = createClient(
 export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [downloadCount, setDownloadCount] = useState(0);
 
   // Fetch total number of rows on mount
   useEffect(() => {
     fetchDownloadCount();
-  }, []);
+  });
 
   async function fetchDownloadCount() {
     const { count, error } = await supabase
