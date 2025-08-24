@@ -39,6 +39,14 @@ A simple and modern website to convert any link into a QR code, instantly genera
   </tr>
   <tr>
     <td>
+      <b>Backend:</b>
+    </td>
+    <td>
+      <img src="https://img.shields.io/badge/Supabase-000000?style=for-the-badge&logo=supabase&logoColor=34B278" />
+    </td>
+  </tr>
+  <tr>
+    <td>
       <b>Deployment:</b>
     </td>
     <td>
