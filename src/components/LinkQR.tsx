@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { FaDownload } from "react-icons/fa";
 import { FaPaste, FaUpload } from "react-icons/fa";
 import { QRCodeCanvas } from "qrcode.react";
+import { createClient } from "@supabase/supabase-js";
 
 export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
@@ -30,6 +31,33 @@ export default function LinkQR({ dark }: { dark: boolean }) {
   const white = dark ? "#fff" : "#000";
   const blue = "#0070f3";
   const yellow = "#FFD600";
+
+  async function saveDownloadCountToSupabase(count: number) {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+    );
+    // Upsert the count (assuming a single row with id=1)
+    await supabase
+      .from('download_counts')
+      .upsert([{ id: 1, count }], { onConflict: 'id' });
+  }
+
+  useEffect(() => {
+    async function testConnection() {
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
+      );
+      const { error } = await supabase.from('download_counts').select().limit(1);
+      if (error) {
+        console.error('Supabase connection error:', error);
+      } else {
+        console.log('Supabase connected!');
+      }
+    }
+    testConnection();
+  }, []);
 
   return (
     <main

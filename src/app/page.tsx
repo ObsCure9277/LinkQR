@@ -7,7 +7,6 @@ import Footer from '../components/Footer';
 
 export default function Home() {
   const [dark, setDark] = useState(false);
-  const downloadCount = 0;
   return (
     <main
       style={{
