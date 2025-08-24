@@ -18,7 +18,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
   // Fetch total number of rows on mount
   useEffect(() => {
     fetchDownloadCount();
-  });
+  }, []);
 
   async function fetchDownloadCount() {
     const { count, error } = await supabase
