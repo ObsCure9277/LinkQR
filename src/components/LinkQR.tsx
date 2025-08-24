@@ -4,23 +4,28 @@ import { useState, useEffect } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { createClient } from "@supabase/supabase-js";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [downloadCount, setDownloadCount] = useState(0);
 
+  // Initialize Supabase client only in the browser
+  const supabase =
+    typeof window !== "undefined"
+      ? createClient(
+          process.env.NEXT_PUBLIC_SUPABASE_URL!,
+          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        )
+      : null;
+
   // Fetch total number of rows on mount
   useEffect(() => {
-    fetchDownloadCount();
+    if (supabase) fetchDownloadCount();
   }, []);
 
   async function fetchDownloadCount() {
+    if (!supabase) return;
     const { count, error } = await supabase
       .from("download_counts")
       .select("*", { count: "exact", head: true });
@@ -29,6 +34,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
 
   // Insert a new row and fetch count
   async function handleDownload() {
+    if (!supabase) return;
     const { error } = await supabase
       .from("download_counts")
       .insert([{ count: 1 }]);
