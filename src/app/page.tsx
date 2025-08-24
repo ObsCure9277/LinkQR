@@ -5,7 +5,6 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import dynamic from 'next/dynamic';
 
-// Dynamically import LinkQR, client-side only
 const LinkQR = dynamic(() => import('../components/LinkQR'), { ssr: false });
 
 export default function Home() {
