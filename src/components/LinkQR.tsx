@@ -5,10 +5,6 @@ import { QRCodeCanvas } from "qrcode.react";
 import { createClient } from "@supabase/supabase-js";
 
 export default function LinkQR({ dark }: { dark: boolean }) {
-  const [link, setLink] = useState("");
-  const [showQR, setShowQR] = useState(false);
-  const [, setDownloadCount] = useState(0);
-
   // Only initialize Supabase in the browser
   const supabase =
     typeof window !== "undefined"
@@ -17,6 +13,10 @@ export default function LinkQR({ dark }: { dark: boolean }) {
           process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
         )
       : null;
+
+  const [link, setLink] = useState("");
+  const [showQR, setShowQR] = useState(false);
+  const [, setDownloadCount] = useState(0);
 
   // Fetch download count from Supabase
   // eslint-disable-next-line react-hooks/exhaustive-deps
