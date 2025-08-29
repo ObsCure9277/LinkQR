@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { createClient } from "@supabase/supabase-js";
+import { FaPaste, FaShare, FaUpload, FaPalette } from 'react-icons/fa';
 
 export default function LinkQR({ dark }: { dark: boolean }) {
-  // Only initialize Supabase in the browser
   const supabase =
     typeof window !== "undefined"
       ? createClient(
@@ -17,9 +18,13 @@ export default function LinkQR({ dark }: { dark: boolean }) {
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
   const [, setDownloadCount] = useState(0);
+  const [logo, setLogo] = useState<string | null>(null);
+  const [qrColor, setQrColor] = useState("#ffffff");
+  const [downloadName, setDownloadName] = useState("qrcode");
 
-  // Fetch download count from Supabase
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // Ref for QR code container
+  const qrRef = useRef<HTMLDivElement>(null);
+
   async function fetchDownloadCount() {
     if (!supabase) return;
     const { count, error } = await supabase
@@ -33,15 +38,52 @@ export default function LinkQR({ dark }: { dark: boolean }) {
     fetchDownloadCount();
   }, [fetchDownloadCount, supabase]);
 
-  // Insert a new row and fetch count
   async function handleDownload() {
     if (!supabase) return;
-    const { error } = await supabase
+    if (qrRef.current) {
+      const qrNode = qrRef.current;
+      const width = 245;
+      const height = 245;
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const qrCanvas = qrNode.querySelector("canvas");
+      if (qrCanvas) {
+        ctx.drawImage(qrCanvas, 0, 0, width, height);
+      }
+
+      if (logo) {
+        const img = new window.Image();
+        img.src = logo;
+        img.onload = () => {
+          const logoSize = 60;
+          ctx.drawImage(
+            img,
+            (width - logoSize) / 2,
+            (height - logoSize) / 2,
+            logoSize,
+            logoSize
+          );
+          const url = canvas.toDataURL("image/png");
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `${downloadName || "qrcode"}.png`;
+          a.click();
+        };
+      } else {
+        const url = canvas.toDataURL("image/png");
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${downloadName || "qrcode"}.png`;
+        a.click();
+      }
+    }
+    await supabase
       .from("download_counts")
       .insert([{ count: 1 }]);
-    if (error) {
-      console.error("Supabase insert error:", error);
-    }
     await fetchDownloadCount();
   }
 
@@ -59,7 +101,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
         justifyContent: "center",
         fontFamily: "Inter, Arial, sans-serif",
         position: "relative",
-        padding: "6rem 1rem",
+        padding: "2.5rem 1rem",
       }}
     >
       <style>
@@ -181,6 +223,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 setShowQR(true);
               }}
             >
+              
               <h1
                 className="destination-link-title"
                 style={{
@@ -209,7 +252,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 required
                 style={{
                   width: "100%",
-                  padding: "1.5rem",
+                  padding: "1rem",
                   fontSize: "1rem",
                   border: `3px solid ${black}`,
                   borderRadius: "8px",
@@ -221,6 +264,48 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   boxShadow: "none",
                 }}
               />
+              
+                <>
+                  <h1
+                    className="filename-title"
+                    style={{
+                      fontWeight: 900,
+                      fontSize: "2rem",
+                      marginBottom: "0.1rem",
+                      marginRight: typeof window !== 'undefined' && window.innerWidth <= 900 ? '0' : '48rem',
+                      color: "#000000",
+                      borderBottom: `4px solid ${blue}`,
+                      paddingBottom: "0.25rem",
+                      textAlign: typeof window !== 'undefined' && window.innerWidth <= 900 ? 'center' : 'left',
+                      width: "100%",
+                    }}
+                  >
+                    File Name
+                  </h1>
+                  {/* QR Code File Name Input with same design as link input */}
+                  <input
+                    className="linkqr-input"
+                    type="text"
+                    value={downloadName}
+                    onChange={e => setDownloadName(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: "1rem",
+                      fontSize: "1rem",
+                      border: `3px solid ${black}`,
+                      borderRadius: "8px",
+                      marginBottom: "1rem",
+                      background: blue,
+                      color: "#ffffff",
+                      fontWeight: 700,
+                      outline: "none",
+                      boxShadow: "none",
+                    }}
+                    placeholder="Enter QR file name"
+                    maxLength={32}
+                    title="QR Code File Name"
+                  />
+                </>
               <button
                 type="submit"
                 className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
@@ -241,24 +326,63 @@ export default function LinkQR({ dark }: { dark: boolean }) {
               >
                 Generate QR Code
               </button>
+              {/* Upload Logo Button */}
+              <label
+                htmlFor="logo-upload"
+                className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
+                style={{
+                  width: "100%",
+                  padding: "1rem",
+                  fontSize: "1rem",
+                  fontWeight: 900,
+                  background: white,
+                  color: black,
+                  border: `3px solid ${black}`,
+                  borderRadius: "8px",
+                  textTransform: "uppercase",
+                  marginBottom: "1rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.5rem",
+                  cursor: "pointer",
+                  transition:
+                    "background 0.2s, box-shadow 0.2s, transform 0.2s",
+                }}
+              >
+                <FaUpload style={{ marginRight: "0.5rem" }} />
+                Upload Logo
+                <input
+                  id="logo-upload"
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  onChange={e => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (ev) => {
+                        setLogo(ev.target?.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                />
+              </label>
             </form>
             <div className="linkqr-info-container flex flex-col gap-4 sm:flex-row">
               <div
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
                 style={{ background: "#FFD600", color: '#000000', borderColor: '#000000' }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h4l3 10h8l3-10h4M4 10V7a2 2 0 012-2h12a2 2 0 012 2v3M4 10h16" />
-                </svg>
+                <FaPaste size={24} />
                 Paste link here
               </div>
               <div
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
                 style={{ background: "#FFD600", color: '#000000', borderColor: '#000000' }}
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h4l3 10h8l3-10h4M4 10V7a2 2 0 012-2h12a2 2 0 012 2v3M4 10h16" />
-                </svg>
+                <FaShare size={24} />
                 Share to anyone !
               </div>
             </div>
@@ -270,7 +394,6 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: "1rem",
                 background: blue,
                 padding: "1rem",
                 borderRadius: "12px",
@@ -287,18 +410,100 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                     background: blue,
                     display: "inline-block",
                   }}
+                  ref={qrRef}
                 >
                   <div style={{ position: 'relative', display: 'inline-block' }}>
                     <QRCodeCanvas
                       id="qr-canvas"
                       value={link}
                       size={245}
-                      fgColor={"#ffffff"}
+                      fgColor={qrColor}
                       bgColor={blue}
                     />
+                    {logo && (
+                      <img
+                        src={logo}
+                        alt="Logo"
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: "60px",
+                          height: "60px",
+                          borderRadius: "12px",
+                          objectFit: "contain",
+                          pointerEvents: "none",
+                          background: "#fff",
+                          boxShadow: "0 0 8px rgba(0,0,0,0.15)",
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
+              {/* Color Picker */}
+              <div
+                className="linkqr-btn"
+                style={{
+                  width: "100%",
+                  padding: "0.5rem",
+                  fontSize: "1rem",
+                  fontWeight: 900,
+                  background: white,
+                  color: black,
+                  border: `3px solid ${black}`,
+                  borderRadius: "8px",
+                  textTransform: "uppercase",
+                  margin: "1rem 0",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.75rem",
+                  boxShadow: "3px 3px 0 #fff",
+                  transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
+                }}
+              >
+                <FaPalette size={22} style={{ marginRight: "0.5rem" }} />
+                <input
+                  type="color"
+                  value={qrColor}
+                  onChange={e => setQrColor(e.target.value)}
+                  style={{
+                    width: "2.5rem",
+                    height: "2.5rem",
+                    border: `3px solid ${black}`,
+                    borderRadius: "8px",
+                    background: white,
+                    cursor: "pointer",
+                    marginRight: "0.5rem",
+                    boxShadow: "none",
+                  }}
+                  title="Pick QR color"
+                />
+                <input
+                  type="text"
+                  value={qrColor}
+                  onChange={e => setQrColor(e.target.value)}
+                  style={{
+                    width: "7rem",
+                    padding: "0.7rem",
+                    fontSize: "1rem",
+                    fontWeight: 900,
+                    background: white,
+                    color: black,
+                    border: `3px solid ${black}`,
+                    borderRadius: "8px",
+                    textTransform: "uppercase",
+                    boxShadow: "none",
+                    transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
+                  }}
+                  placeholder="#ffffff"
+                  maxLength={7}
+                  title="Enter hex color"
+                />
+              </div>
+              
               <button
                 className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
                 style={{
@@ -314,17 +519,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   textTransform: "uppercase",
                   transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
                 }}
-                onClick={async () => {
-                  const canvas = document.getElementById("qr-canvas") as HTMLCanvasElement;
-                  if (canvas) {
-                    const url = canvas.toDataURL("image/png");
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = "qrcode.png";
-                    a.click();
-                    await handleDownload();
-                  }
-                }}
+                onClick={handleDownload}
               >
                 Download QR Code
               </button>

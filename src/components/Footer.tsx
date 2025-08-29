@@ -19,11 +19,9 @@ export default function Footer({ dark }: FooterProps) {
         color: '#000000',
         fontWeight: 700,
         fontSize: "1rem",
-        position: "fixed",
         left: 0,
         right: 0,
         bottom: 0,
-        zIndex: 100,
       }}
     >
       <style>

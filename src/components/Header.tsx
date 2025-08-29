@@ -43,7 +43,7 @@ export default function Header({ dark, setDark }: HeaderProps) {
         alignItems: "center",
         justifyContent: "center",
         fontFamily: "Inter, Arial, sans-serif",
-        zIndex: 50,
+        zIndex: 100,
       }}
     >
       <style>
