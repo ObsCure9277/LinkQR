@@ -16,8 +16,11 @@ A simple and modern website to convert any link into a QR code, instantly genera
 ### ✅ Downloadable QR Codes  
 - Save generated QR codes as PNG images.
 
-### ✅ Neo-Brutalism Design  
-- Bold, minimal, and visually striking interface using only black, white, yellow and blue.
+### ✅ Color Picker & Custom Colors  
+- Choose and customize the QR code and background colors using a color picker or hex code input.
+
+### ✅ Upload Logo for QR Code  
+- Upload your own logo to be placed at the center of the generated QR code.
   
 ### ✅ Responsive Design  
 - Works seamlessly on desktop and mobile devices.
