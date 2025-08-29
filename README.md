@@ -2,8 +2,8 @@
 
 A simple and modern website to convert any link into a QR code, instantly generate QR codes for your URLs and download them for sharing or printing, built with **React**, **Next.js**, **TypeScript** and **Tailwind CSS**.
 
-<img width="1917" height="945" alt="LinkQR_1" src="https://github.com/user-attachments/assets/710c28f0-67e8-4056-87d6-18e1b1f010d2" />
-<img width="1919" height="943" alt="LinkQR_2" src="https://github.com/user-attachments/assets/bc0e469f-077b-43b0-b910-d42369a543aa" />
+<img width="1918" height="944" alt="LinkQR_1" src="https://github.com/user-attachments/assets/e89b0fd5-4d01-4ea0-9723-03316c7f9054" />
+<img width="1918" height="944" alt="LinkQR_2" src="https://github.com/user-attachments/assets/1904c896-7415-4bb3-bb38-777a6d2fa937" />
 
 ---
 
