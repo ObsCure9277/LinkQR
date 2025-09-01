@@ -17,7 +17,7 @@ A simple and modern website to convert any link into a QR code, instantly genera
 - Save generated QR codes as PNG images.
 
 ### ✅ Color Picker & Custom Colors  
-- Choose and customize the QR code and background colors using a color picker or hex code input.
+- Choose and customize the QR code colors using a color picker or hex code input.
 
 ### ✅ Upload Logo for QR Code  
 - Upload your own logo to be placed at the center of the generated QR code.
