@@ -200,7 +200,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
               marginBottom: "1rem",
               color: black,
               display: "inline-block",
-              marginLeft: "0.8rem",
+              marginLeft: "0.6rem",
             }}
           >
             to Boost Your Business
