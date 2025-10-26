@@ -4,7 +4,7 @@
 import { useRef, useEffect, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { createClient } from "@supabase/supabase-js";
-import { FaPaste, FaShare, FaUpload, FaPalette } from 'react-icons/fa';
+import { FaPaste, FaShare, FaUpload, FaPalette } from "react-icons/fa";
 
 export default function LinkQR({ dark }: { dark: boolean }) {
   const supabase =
@@ -81,9 +81,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
         a.click();
       }
     }
-    await supabase
-      .from("download_counts")
-      .insert([{ count: 1 }]);
+    await supabase.from("download_counts").insert([{ count: 1 }]);
     await fetchDownloadCount();
   }
 
@@ -186,6 +184,47 @@ export default function LinkQR({ dark }: { dark: boolean }) {
             className="linkqr-title"
             style={{
               fontWeight: 900,
+              fontSize: "2.5rem",
+              marginBottom: "1rem",
+              color: blue,
+              display: "inline-block",
+            }}
+          >
+            QR Codes
+          </h1>
+          <h1
+            className="linkqr-title"
+            style={{
+              fontWeight: 900,
+              fontSize: "2rem",
+              marginBottom: "1rem",
+              color: black,
+              display: "inline-block",
+              marginLeft: "0.8rem",
+            }}
+          >
+            to Boost Your Business
+          </h1>
+        </div>
+        <span
+          style={{
+            fontWeight: 500,
+            fontSize: "1.25rem",
+            marginBottom: "1.5rem",
+            color: black,
+            display: "inline-block",
+            paddingBottom: "1.5rem",
+          }}
+        >
+          Spread the word about your business or personal website ! Simply
+          generate a QR code that links to your desired URL, and share it on
+          your marketing materials, social media, or even in-store displays.
+        </span>
+        <div style={{ width: "100%" }}>
+          <h1
+            className="linkqr-title"
+            style={{
+              fontWeight: 900,
               fontSize: "2rem",
               marginBottom: "1.5rem",
               color: black,
@@ -223,18 +262,23 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 setShowQR(true);
               }}
             >
-              
               <h1
                 className="destination-link-title"
                 style={{
                   fontWeight: 900,
                   fontSize: "2rem",
                   marginBottom: "0.1rem",
-                  marginRight: typeof window !== 'undefined' && window.innerWidth <= 900 ? '0' : '48rem',
+                  marginRight:
+                    typeof window !== "undefined" && window.innerWidth <= 900
+                      ? "0"
+                      : "48rem",
                   color: "#000000",
                   borderBottom: `4px solid ${blue}`,
                   paddingBottom: "0.25rem",
-                  textAlign: typeof window !== 'undefined' && window.innerWidth <= 900 ? 'center' : 'left',
+                  textAlign:
+                    typeof window !== "undefined" && window.innerWidth <= 900
+                      ? "center"
+                      : "left",
                   width: "100%",
                 }}
               >
@@ -264,48 +308,54 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   boxShadow: "none",
                 }}
               />
-              
-                <>
-                  <h1
-                    className="filename-title"
-                    style={{
-                      fontWeight: 900,
-                      fontSize: "2rem",
-                      marginBottom: "0.1rem",
-                      marginRight: typeof window !== 'undefined' && window.innerWidth <= 900 ? '0' : '48rem',
-                      color: "#000000",
-                      borderBottom: `4px solid ${blue}`,
-                      paddingBottom: "0.25rem",
-                      textAlign: typeof window !== 'undefined' && window.innerWidth <= 900 ? 'center' : 'left',
-                      width: "100%",
-                    }}
-                  >
-                    File Name
-                  </h1>
-                  {/* QR Code File Name Input with same design as link input */}
-                  <input
-                    className="linkqr-input"
-                    type="text"
-                    value={downloadName}
-                    onChange={e => setDownloadName(e.target.value)}
-                    style={{
-                      width: "100%",
-                      padding: "1rem",
-                      fontSize: "1rem",
-                      border: `3px solid ${black}`,
-                      borderRadius: "8px",
-                      marginBottom: "1rem",
-                      background: blue,
-                      color: "#ffffff",
-                      fontWeight: 700,
-                      outline: "none",
-                      boxShadow: "none",
-                    }}
-                    placeholder="Enter QR file name"
-                    maxLength={32}
-                    title="QR Code File Name"
-                  />
-                </>
+
+              <>
+                <h1
+                  className="filename-title"
+                  style={{
+                    fontWeight: 900,
+                    fontSize: "2rem",
+                    marginBottom: "0.1rem",
+                    marginRight:
+                      typeof window !== "undefined" && window.innerWidth <= 900
+                        ? "0"
+                        : "48rem",
+                    color: "#000000",
+                    borderBottom: `4px solid ${blue}`,
+                    paddingBottom: "0.25rem",
+                    textAlign:
+                      typeof window !== "undefined" && window.innerWidth <= 900
+                        ? "center"
+                        : "left",
+                    width: "100%",
+                  }}
+                >
+                  File Name
+                </h1>
+                {/* QR Code File Name Input with same design as link input */}
+                <input
+                  className="linkqr-input"
+                  type="text"
+                  value={downloadName}
+                  onChange={(e) => setDownloadName(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "1rem",
+                    fontSize: "1rem",
+                    border: `3px solid ${black}`,
+                    borderRadius: "8px",
+                    marginBottom: "1rem",
+                    background: blue,
+                    color: "#ffffff",
+                    fontWeight: 700,
+                    outline: "none",
+                    boxShadow: "none",
+                  }}
+                  placeholder="Enter QR file name"
+                  maxLength={32}
+                  title="QR Code File Name"
+                />
+              </>
               <button
                 type="submit"
                 className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
@@ -357,7 +407,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   type="file"
                   accept="image/*"
                   style={{ display: "none" }}
-                  onChange={e => {
+                  onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) {
                       const reader = new FileReader();
@@ -373,14 +423,22 @@ export default function LinkQR({ dark }: { dark: boolean }) {
             <div className="linkqr-info-container flex flex-col gap-4 sm:flex-row">
               <div
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
-                style={{ background: "#FFD600", color: '#000000', borderColor: '#000000' }}
+                style={{
+                  background: "#FFD600",
+                  color: "#000000",
+                  borderColor: "#000000",
+                }}
               >
                 <FaPaste size={24} />
                 Paste link here
               </div>
               <div
                 className="linkqr-info flex items-center gap-4 w-full p-6 text-lg font-extrabold uppercase rounded-lg border-4"
-                style={{ background: "#FFD600", color: '#000000', borderColor: '#000000' }}
+                style={{
+                  background: "#FFD600",
+                  color: "#000000",
+                  borderColor: "#000000",
+                }}
               >
                 <FaShare size={24} />
                 Share to anyone !
@@ -401,7 +459,13 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 minWidth: 0,
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
                 <div
                   style={{
                     border: `3px solid ${black}`,
@@ -412,7 +476,9 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   }}
                   ref={qrRef}
                 >
-                  <div style={{ position: 'relative', display: 'inline-block' }}>
+                  <div
+                    style={{ position: "relative", display: "inline-block" }}
+                  >
                     <QRCodeCanvas
                       id="qr-canvas"
                       value={link}
@@ -461,14 +527,15 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   justifyContent: "center",
                   gap: "0.75rem",
                   boxShadow: "3px 3px 0 #fff",
-                  transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
+                  transition:
+                    "background 0.2s, box-shadow 0.2s, transform 0.2s",
                 }}
               >
                 <FaPalette size={22} style={{ marginRight: "0.5rem" }} />
                 <input
                   type="color"
                   value={qrColor}
-                  onChange={e => setQrColor(e.target.value)}
+                  onChange={(e) => setQrColor(e.target.value)}
                   style={{
                     width: "2.5rem",
                     height: "2.5rem",
@@ -484,7 +551,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                 <input
                   type="text"
                   value={qrColor}
-                  onChange={e => setQrColor(e.target.value)}
+                  onChange={(e) => setQrColor(e.target.value)}
                   style={{
                     width: "7rem",
                     padding: "0.7rem",
@@ -496,14 +563,15 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                     borderRadius: "8px",
                     textTransform: "uppercase",
                     boxShadow: "none",
-                    transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
+                    transition:
+                      "background 0.2s, box-shadow 0.2s, transform 0.2s",
                   }}
                   placeholder="#ffffff"
                   maxLength={7}
                   title="Enter hex color"
                 />
               </div>
-              
+
               <button
                 className="linkqr-btn shadow-[3px_3px_0_white] active:translate-x-2 hover:translate-x-1 active:translate-y-2 hover:translate-y-1 hover:shadow-none"
                 style={{
@@ -517,7 +585,8 @@ export default function LinkQR({ dark }: { dark: boolean }) {
                   border: `3px solid ${black}`,
                   borderRadius: "8px",
                   textTransform: "uppercase",
-                  transition: "background 0.2s, box-shadow 0.2s, transform 0.2s",
+                  transition:
+                    "background 0.2s, box-shadow 0.2s, transform 0.2s",
                 }}
                 onClick={handleDownload}
               >
