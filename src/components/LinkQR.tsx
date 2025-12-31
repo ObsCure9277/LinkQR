@@ -1,23 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
-import { createClient } from "@supabase/supabase-js";
 import { FaPaste, FaShare, FaUpload, FaPalette } from "react-icons/fa";
 
 export default function LinkQR({ dark }: { dark: boolean }) {
-  const supabase =
-    typeof window !== "undefined"
-      ? createClient(
-          process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-        )
-      : null;
-
   const [link, setLink] = useState("");
   const [showQR, setShowQR] = useState(false);
-  const [, setDownloadCount] = useState(0);
   const [logo, setLogo] = useState<string | null>(null);
   const [qrColor, setQrColor] = useState("#ffffff");
   const [downloadName, setDownloadName] = useState("qrcode");
@@ -25,21 +15,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
   // Ref for QR code container
   const qrRef = useRef<HTMLDivElement>(null);
 
-  async function fetchDownloadCount() {
-    if (!supabase) return;
-    const { count, error } = await supabase
-      .from("download_counts")
-      .select("*", { count: "exact", head: true });
-    if (!error && typeof count === "number") setDownloadCount(count);
-  }
-
-  useEffect(() => {
-    if (!supabase) return;
-    fetchDownloadCount();
-  }, [fetchDownloadCount, supabase]);
-
-  async function handleDownload() {
-    if (!supabase) return;
+  function handleDownload() {
     if (qrRef.current) {
       const qrNode = qrRef.current;
       const width = 245;
@@ -81,8 +57,6 @@ export default function LinkQR({ dark }: { dark: boolean }) {
         a.click();
       }
     }
-    await supabase.from("download_counts").insert([{ count: 1 }]);
-    await fetchDownloadCount();
   }
 
   // Color palette
