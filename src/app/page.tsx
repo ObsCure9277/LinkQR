@@ -1,13 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/section/Header';
+import Footer from '../components/section/Footer';
 import dynamic from 'next/dynamic';
 
-const LinkQR = dynamic(() => import('../components/LinkQR'), {
+const QRGenerate = dynamic(() => import('../components/section/QRGenerate'), {
   ssr: false,
 });
+const About = dynamic(() => import('../components/section/About'), { ssr: false });
+const FAQ = dynamic(() => import('../components/section/FAQ'), { ssr: false });
 
 export default function Home() {
   const [dark, setDark] = useState(false);
@@ -37,7 +39,9 @@ export default function Home() {
         }}
       />
       <Header dark={dark} setDark={setDark} />
-      <LinkQR dark={dark} />
+      <QRGenerate dark={dark} />
+      <About dark={dark} />
+      <FAQ dark={dark} />
       <Footer dark={dark} />
     </main>
   );

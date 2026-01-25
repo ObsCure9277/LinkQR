@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import DarkModeToggle from "./Toggle";
+import DarkModeToggle from "../ui/Toggle";
 
 type HeaderProps = {
   dark: boolean;
@@ -9,8 +9,8 @@ type HeaderProps = {
 };
 
 export default function Header({ dark, setDark }: HeaderProps) {
-  const black = dark ? "#000" : "#fff";
-  const white = dark ? "#fff" : "#000";
+  const black = dark ? "#000" : "#e0e0e0";
+  const white = dark ? "#e0e0e0" : "#000";
 
   return (
     <header
@@ -51,6 +51,16 @@ export default function Header({ dark, setDark }: HeaderProps) {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <img
+            src="/linkqr_favicon.svg"
+            alt="LinkQR Logo"
+            style={{
+              width: "2.2rem",
+              height: "2.2rem",
+              marginLeft: "0.25rem",
+              verticalAlign: "middle",
+            }}
+          />
           <h1
             className="linkqr-title"
             style={{
@@ -64,16 +74,6 @@ export default function Header({ dark, setDark }: HeaderProps) {
           >
             LinkQR
           </h1>
-          <img
-            src="/linkqr_favicon.svg"
-            alt="LinkQR Logo"
-            style={{
-              width: "2.2rem",
-              height: "2.2rem",
-              marginLeft: "0.25rem",
-              verticalAlign: "middle",
-            }}
-          />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
           <span>

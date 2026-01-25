@@ -1,11 +1,9 @@
-import React from "react";
-
 type FooterProps = {
   dark: boolean;
 };
 
 export default function Footer({ dark }: FooterProps) {
-  const black = dark ? "#000" : "#fff";
+  const black = dark ? "#000" : "#e0e0e0";
   const blue = "#0070f3";
 
   return (
