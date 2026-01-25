@@ -33,7 +33,17 @@ export default function Footer({ dark }: FooterProps) {
           }
         `}
       </style>
-      <div className="footer-inner" style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '10rem' }}>
+      <div className="footer-inner" style={{ 
+        display: 'flex', 
+        flexDirection: 'row', 
+        justifyContent: 'center', // Keep center if content is less than 1200px, but usually for "same width" we might want space-between or just max-width wrapper
+        alignItems: 'center', 
+        gap: '10rem',
+        maxWidth: "1200px",
+        width: "100%",
+        margin: "0 auto", // Center the container itself
+        padding: "0 1rem" // Add padding to prevent edge touching on smaller screens
+      }}>
         <span>
           © 2025 LinkQR. All rights reserved.
         </span>

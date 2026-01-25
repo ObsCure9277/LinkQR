@@ -150,7 +150,7 @@ export default function QRConfiguration({ options, setOptions, dark, qrType }: Q
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        marginBottom: "2rem",
+        paddingTop: "1rem",
       }}
     >
       {/* Content Section */}

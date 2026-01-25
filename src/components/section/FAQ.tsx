@@ -33,10 +33,6 @@ export default function FAQ({ dark }: FAQProps) {
        answer: "We do not save or reuse your data in any form. We cache your qr code image files for 24h on our server to optimize the performance of LinkQR."
     },
     {
-       question: "Why is my vCard QR code not showing the correct fields?",
-       answer: "Not all QR code scanners follow the official vCard standard which results in mixed up contact fields. Please try another QR code scanner app for better results."
-    },
-    {
        question: "My QR code is not working, what can I do?",
        answer: "There are many reasons why a QR code is not working correctly. At first check your entered data. Sometimes there are little typos in your URL that break your QR code. Some QR codes (like vCard) contain a lot of data. Try reducing the data you entered for your QR code when possible. This can make it easier for QR code scanner apps to read your code. Try to remove the logo in your QR code and check if this helps. Also make sure that there is enough contrast between the background and foreground of the QR code. The foreground should always be darker than the background."
     },
@@ -54,6 +50,7 @@ export default function FAQ({ dark }: FAQProps) {
 
   return (
     <section 
+      id="faq"
       style={{ 
         padding: "4rem 1rem", 
         color: theme.panelText,

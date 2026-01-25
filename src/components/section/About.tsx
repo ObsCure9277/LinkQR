@@ -45,6 +45,7 @@ export default function About({ dark }: AboutProps) {
 
   return (
     <section 
+      id="about"
       style={{
         background: theme.panelBackground, 
         color: theme.panelText,

@@ -56,7 +56,7 @@ export default function QRTypeNav({ activeType, setActiveType, dark }: QRTypeNav
             display: "flex",
             alignItems: "center",
             gap: "0.5rem",
-            padding: "0.75rem 1rem",
+            padding: "1.5rem",
             background: activeType === btn.type ? theme.primary : "transparent",
             color: activeType === btn.type 
               ? theme.activeText 
