@@ -73,12 +73,12 @@ export default function About({ dark }: AboutProps) {
               .feature-title { font-size: 30px; }
               .feature-text { font-size: 20px; }
               .about-card:nth-child(odd) {
-                border-right: 2px solid ${theme.panelText};
+                border-right: 4px solid ${theme.panelText};
               }
             }
           `}
         </style>
-        <div className="features-grid" style={{borderBottom: `2px solid ${theme.panelText}`,}}>
+        <div className="features-grid" style={{borderBottom: `4px solid ${theme.panelText}`,}}>
           {features.map((feature, index) => (
             <div 
               key={index} 
@@ -86,10 +86,10 @@ export default function About({ dark }: AboutProps) {
               style={{ 
                 // Padding handled by CSS class .about-card
                 background: theme.panelBackground,
-                borderTop: `2px solid ${theme.panelText}`,
+                borderTop: `4px solid ${theme.panelText}`,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.8rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", marginBottom: "1.8rem" }}>
                 <div 
                   className="feature-icon"
                   style={{ 
