@@ -16,21 +16,16 @@ export default function QRPreview({ options, dark }: QRPreviewProps) {
   const theme = getTheme(dark);
 
   useEffect(() => {
-    // Dynamically import qr-code-styling to avoid SSR issues if necessary,
-    // though the component is "use client" so standard import might work if the lib supports it.
-    // For now, assuming the lib is safe or purely client-side logic in useEffect.
+    // Re-initialize the QR code instance whenever options change
+    // This ensures that structural changes (shapes, etc.) are correctly applied
+    // adhering to the user's request for full regeneration.
     const qr = new QRCodeStyling(options);
     setQrCode(qr);
     if (ref.current) {
       ref.current.innerHTML = "";
       qr.append(ref.current);
     }
-  }, []);
-
-  useEffect(() => {
-    if (!qrCode) return;
-    qrCode.update(options);
-  }, [qrCode, options]);
+  }, [options]);
 
   const handleDownload = (extension: "png" | "jpeg" | "webp" | "svg") => {
     if (!qrCode) return;

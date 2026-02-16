@@ -57,7 +57,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
         minHeight: "calc(100vh)",
       }}
     >
-      <div style={{ textAlign: "center", marginBottom: "3rem", marginTop: "3rem", width: "100%" }}>
+      <div className="hidden md:block" style={{ textAlign: "center", marginBottom: "3rem", marginTop: "3rem", width: "100%"}}>
         <h1 style={{ 
           fontSize: "3rem", 
           fontWeight: 900, 
@@ -119,9 +119,7 @@ export default function LinkQR({ dark }: { dark: boolean }) {
         }
         @media (max-width: 600px) {
           .slogan-benefits {
-            flex-direction: column !important;
-            align-items: center;
-            gap: 0.75rem !important;
+            display: none !important;
           }
         }
       `}</style>
