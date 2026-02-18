@@ -18,7 +18,6 @@ Live Preview 👉 <a href="https://linkqrcode.vercel.app">View Website</a>
 - [💡 Usage Examples](#-usage-examples)
 - [🎨 Customization Options](#-customization-options)
 - [🌐 Browser Support](#-browser-support)
-- [🤝 Contributing](#-contributing)
 - [📞 Support](#-support)
 - [📄 License](#-license)
 - [🙏 Acknowledgments](#-acknowledgments)
