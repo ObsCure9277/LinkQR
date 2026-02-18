@@ -1,4 +1,4 @@
-# 🔗 LinkQR
+# 🔗 LinkQRCode
 
 A modern, feature-rich QR code generator web application that creates customizable QR codes for multiple data types. Built with **React**, **Next.js**, **TypeScript** and **Tailwind CSS**, LinkQR offers unlimited scans, high-resolution downloads, and extensive customization options—all completely free.
 
