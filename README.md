@@ -74,10 +74,10 @@ Live Preview 👉 <a href="https://linkqrcode.vercel.app">View Website</a>
       <b>Frontend:</b>
     </td>
     <td>
-      <img src="https://img.shields.io/badge/React-19.2-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
-      <img src="https://img.shields.io/badge/Next.js-16.1-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
-      <img src="https://img.shields.io/badge/TypeScript-5-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
-      <img src="https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+      <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+      <img src="https://img.shields.io/badge/next%20js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
+      <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
+      <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
     </td>
   </tr>
   <tr>
@@ -85,8 +85,8 @@ Live Preview 👉 <a href="https://linkqrcode.vercel.app">View Website</a>
       <b>QR Libraries:</b>
     </td>
     <td>
-      <img src="https://img.shields.io/badge/qr--code--styling-1.9-blue?style=for-the-badge" />
-      <img src="https://img.shields.io/badge/qrcode.react-4.2-blue?style=for-the-badge" />
+      <img src="https://img.shields.io/badge/qr--code--styling-blue?style=for-the-badge" />
+      <img src="https://img.shields.io/badge/qrcode.react-blue?style=for-the-badge" />
     </td>
   </tr>
   <tr>
